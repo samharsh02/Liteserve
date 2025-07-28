@@ -10,6 +10,7 @@ def extract_request_line(request):
     request_line = request.split("\r\n")[0]
     return request_line if request_line else None
 
+
 def extract_request_headers(request):
     request_header = request.split("\r\n")[1:]
     headers = dict()
@@ -34,7 +35,7 @@ def check_str_endpoint(request):
     elif method == "GET" and path == "/user-agent":
         return HttpResponse.ok(body=headers.get("User-Agent", ""))
     else:
-        return HttpResponse.bad_request()
+        return HttpResponse.not_found()
 
 
 def main():
