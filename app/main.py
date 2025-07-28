@@ -13,12 +13,14 @@ def extract_request_line(request):
     return request_line if request_line else None
 
 
-def step_3_check(request):
+def check_str_endpoint(request):
     request_line = extract_request_line(request)
     if request_line:
         request_list = request_line.split()
-        if request_list[0] == "GET" and request_list[1] == "/":
-            return b"""HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n"""
+        if request_list[0] == "GET" and request_list[1].startswith("/echo/"):
+            str_endpoint = request_list[1][6:]
+            response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(str_endpoint)}\r\n\r\n{str_endpoint}"
+            return response.encode("utf-8")
         else:
             return b"""HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\n\r\n"""
     else:
@@ -36,7 +38,7 @@ def main():
         data = conn.recv(buffer_size)
 
         request = decode_data(data)
-        response = step_3_check(request)
+        response = check_str_endpoint(request)
         conn.sendall(response)
         conn.close()
         print(f"Connection to {addr} closed.")
