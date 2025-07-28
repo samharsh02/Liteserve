@@ -9,7 +9,7 @@ def main():
     #
     server_socket = socket.create_server(("localhost", 4221), reuse_port=True)
     conn, addr = server_socket.accept() 
-    message = b"""HTTP/1.1 200 OK \r\n\r\n"""
+    message = b"""HTTP/1.1 200 OK\r\n\r\n"""
     conn.send(message)
 
 
