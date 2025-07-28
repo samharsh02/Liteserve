@@ -17,6 +17,9 @@ def check_str_endpoint(request):
     request_line = extract_request_line(request)
     if request_line:
         request_list = request_line.split()
+        if request_line[0] == "GET" and request_line[1] == "/":
+            response = b"""HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n"""
+            return response
         if request_list[0] == "GET" and request_list[1].startswith("/echo/"):
             str_endpoint = request_list[1][6:]
             response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(str_endpoint)}\r\n\r\n{str_endpoint}"
