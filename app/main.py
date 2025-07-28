@@ -1,5 +1,5 @@
-import socket  # noqa: F401
-from httpresponse import HttpResponse
+import socket
+from app.httpresponse import HttpResponse
 
 def decode_data(data):
     print("data:", data)
